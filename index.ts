@@ -82,8 +82,8 @@ function listMajors(auth) {
   const sheets = google.sheets({ version: 'v4', auth })
   sheets.spreadsheets.values.get(
     {
-      spreadsheetId: '1ux7ttNVuTbMaIfcW4t8tZe9Ii17F-3khXjHR8Il2dGI',
-      range: 'A:O',
+      spreadsheetId: '1DAl1fErItlqzjTXs4dWexk_KPdawmO7KCar7Q6to84k',
+      range: 'A:H',
     },
     (err, res) => {
       if (err) return console.log('The API returned an error: ' + err)
@@ -94,38 +94,36 @@ function listMajors(auth) {
 
       // converts grid data to jsonlike object
       const toJson = toJSON(rows)
-      // console.log('toJSON', toJson)
+      console.log('toJSON', toJson)
 
       const keys = toJson.map(item => {
         return {
-          'Shipment No.:': item['Shipment No.:'],
-          'Delivery Order No.:': item['Delivery Order No.:'],
+          Games: item['Games'],
         }
       })
       const grouped = groupByKeys(keys, toJson)
       console.log('grouped')
       grouped.map(group => {
         console.log('---------')
-        console.log(group.key)
-        console.log(group.items)
+        console.log(group)
       })
     },
   )
 
-  sheets.spreadsheets.values.update(
-    {
-      spreadsheetId: '1ux7ttNVuTbMaIfcW4t8tZe9Ii17F-3khXjHR8Il2dGI',
-      valueInputOption: 'USER_ENTERED',
-      range: 'Sheet1!O2',
-      requestBody: {
-        majorDimension: 'COLUMNS',
-        values: [['pending', 'done', 'todo', 'whatevs', 'partially delivered']],
-      },
-    },
-    (err, res) => {
-      console.log('update ---------')
-      if (err) return console.log('The API returned an error: ' + err)
-      console.log(res)
-    },
-  )
+  // sheets.spreadsheets.values.update(
+  //   {
+  //     spreadsheetId: '1ux7ttNVuTbMaIfcW4t8tZe9Ii17F-3khXjHR8Il2dGI',
+  //     valueInputOption: 'USER_ENTERED',
+  //     range: 'Sheet1!O2',
+  //     requestBody: {
+  //       majorDimension: 'COLUMNS',
+  //       values: [['pending', 'done', 'todo', 'whatevs', 'partially delivered']],
+  //     },
+  //   },
+  //   (err, res) => {
+  //     console.log('update ---------')
+  //     if (err) return console.log('The API returned an error: ' + err)
+  //     console.log(res)
+  //   },
+  // )
 }
